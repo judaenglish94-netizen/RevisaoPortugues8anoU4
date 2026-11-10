@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal de Estudos - Português 8º Ano</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --space-blue: #0284c7;
+      --space-light: #38bdf8;
+      --text-main: #f8f9fa;
+      --text-secondary: #94a3b8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Nunito', sans-serif;
+      color: var(--text-main);
+      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.5;
+      background-image:
+        radial-gradient(2px 2px at 12% 18%, #ffffff, transparent),
+        radial-gradient(1.5px 1.5px at 28% 72%, #ffffff, transparent),
+        radial-gradient(2px 2px at 45% 25%, #ffffff, transparent),
+        radial-gradient(1px 1px at 62% 84%, #ffffff, transparent),
+        radial-gradient(2px 2px at 78% 15%, #ffffff, transparent),
+        radial-gradient(1.5px 1.5px at 88% 58%, #ffffff, transparent),
+        radial-gradient(1px 1px at 18% 48%, #ffffff, transparent),
+        radial-gradient(2px 2px at 54% 62%, #ffffff, transparent),
+        radial-gradient(1.5px 1.5px at 92% 30%, #ffffff, transparent),
+        radial-gradient(1px 1px at 36% 90%, #ffffff, transparent);
+      z-index: 0;
+    }
+
+    h1, h2, h3, .font-title { font-family: 'Fredoka', sans-serif; }
+
+    .top-logo {
+      position: relative;
+      z-index: 1;
+      max-width: 202px;
+      width: 100%;
+      height: auto;
+      margin-bottom: 14px;
+      filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.7));
+      -webkit-mask-image: radial-gradient(ellipse at center, black 48%, transparent 74%);
+      mask-image: radial-gradient(ellipse at center, black 48%, transparent 74%);
+    }
+
+    .main-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 750px;
+      height: 76vh;
+      min-height: 480px;
+      background: rgba(13, 27, 42, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 3px solid rgba(255, 255, 255, 0.85);
+      border-radius: 20px;
+      padding: 24px 28px;
+      overflow-y: auto;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .main-card::-webkit-scrollbar { width: 8px; }
+    .main-card::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); border-radius: 10px; }
+    .main-card::-webkit-scrollbar-thumb { background: #0284c7; border-radius: 10px; }
+    .main-card::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+
+    .option-btn { transition: all 0.2s ease; }
+    .option-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      border-color: #38bdf8;
+      background-color: rgba(2, 132, 199, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <img src="judalogo.png" alt="Logo Judá" class="top-logo" />
+
+  <main class="main-card flex flex-col justify-between">
+    <!-- Cabeçalho -->
+    <header class="border-b border-slate-700/80 pb-3 mb-4 flex flex-wrap items-center justify-between gap-2">
+      <div>
+        <h1 class="text-xl sm:text-2xl font-bold text-[#38bdf8] tracking-wide">
+          Português — 8º Ano
+        </h1>
+        <p id="header-subtitle" class="text-xs sm:text-sm text-[#94a3b8]">
+          Guia Prático e Simulado Avaliativo
+        </p>
+      </div>
+      <div id="quiz-badges" class="hidden flex items-center gap-2 flex-wrap">
+        <span id="progress-badge" class="px-3 py-1 text-xs sm:text-sm font-bold rounded-full bg-[#0284c7]/30 border border-[#38bdf8] text-[#f8f9fa]">
+          1 / 10
+        </span>
+        <span id="score-badge" class="px-3 py-1 text-xs sm:text-sm font-bold rounded-full bg-slate-800 border border-white/40 text-[#38bdf8]">
+          Nota: 0.0 / 10
+        </span>
+      </div>
+    </header>
+
+    <!-- TELA 1: MENU PRINCIPAL -->
+    <section id="menu-screen" class="flex-1 flex flex-col justify-between gap-4">
+      <div class="space-y-3">
+        <p class="text-sm sm:text-base text-[#94a3b8]">
+          Escolha um <strong>bloco de estudos</strong> para revisar a matéria de forma direta e praticar 10 questões, ou faça o <strong>Simulado Geral</strong> com todos os 40 desafios:
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <button onclick="openStudyBlock(0)" class="text-left p-4 rounded-2xl bg-slate-900/80 border-2 border-[#38bdf8]/50 hover:border-[#38bdf8] hover:bg-[#0284c7]/20 transition cursor-pointer">
+            <span class="text-xs font-bold uppercase tracking-wider text-[#38bdf8]">Bloco 1 (Tópicos 1–5)</span>
+            <h2 class="text-base sm:text-lg font-bold text-[#f8f9fa] mt-0.5">Subordinadas Substantivas</h2>
+            <p class="text-xs text-[#94a3b8] mt-1">Predicativa, completiva nominal, apositiva e pontuação.</p>
+          </button>
+
+          <button onclick="openStudyBlock(1)" class="text-left p-4 rounded-2xl bg-slate-900/80 border-2 border-[#38bdf8]/50 hover:border-[#38bdf8] hover:bg-[#0284c7]/20 transition cursor-pointer">
+            <span class="text-xs font-bold uppercase tracking-wider text-[#38bdf8]">Bloco 2 (Tópicos 6–12)</span>
+            <h2 class="text-base sm:text-lg font-bold text-[#f8f9fa] mt-0.5">Subordinadas Adjetivas</h2>
+            <p class="text-xs text-[#94a3b8] mt-1">Conectivos, explicativas, reduzidas e uso da vírgula.</p>
+          </button>
+
+          <button onclick="openStudyBlock(2)" class="text-left p-4 rounded-2xl bg-slate-900/80 border-2 border-[#38bdf8]/50 hover:border-[#38bdf8] hover:bg-[#0284c7]/20 transition cursor-pointer">
+            <span class="text-xs font-bold uppercase tracking-wider text-[#38bdf8]">Bloco 3 (Tópicos 13–21)</span>
+            <h2 class="text-base sm:text-lg font-bold text-[#f8f9fa] mt-0.5">Subordinadas Adverbiais</h2>
+            <p class="text-xs text-[#94a3b8] mt-1">Consecutiva, conformativa, concessiva, comparativa e vírgula.</p>
+          </button>
+
+          <button onclick="openStudyBlock(3)" class="text-left p-4 rounded-2xl bg-slate-900/80 border-2 border-[#38bdf8]/50 hover:border-[#38bdf8] hover:bg-[#0284c7]/20 transition cursor-pointer">
+            <span class="text-xs font-bold uppercase tracking-wider text-[#38bdf8]">Bloco 4 (Tópicos 22–26)</span>
+            <h2 class="text-base sm:text-lg font-bold text-[#f8f9fa] mt-0.5">Coerência e Coesão</h2>
+            <p class="text-xs text-[#94a3b8] mt-1">Coerência textual, coesão referencial e coesão lexical.</p>
+          </button>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-slate-700/70 flex flex-col items-center gap-2">
+        <button onclick="startQuiz('all')" class="w-full sm:w-auto px-8 py-3 rounded-full font-bold text-base bg-[#0284c7] hover:bg-[#38bdf8] text-white border-2 border-white transition cursor-pointer shadow-lg">
+          Fazer Simulado Geral (40 Questões) →
+        </button>
+      </div>
+    </section>
+
+    <!-- TELA 2: EXPLICAÇÃO DO BLOCO -->
+    <section id="study-screen" class="hidden flex-1 flex flex-col justify-between gap-4">
+      <div id="study-content" class="space-y-3 text-sm sm:text-base"></div>
+      <div class="pt-3 border-t border-slate-700/70 flex flex-wrap items-center justify-between gap-3">
+        <button onclick="backToMenu()" class="px-5 py-2.5 rounded-full font-bold bg-slate-800 hover:bg-slate-700 text-white border-2 border-white/60 transition cursor-pointer">
+          ← Menu Principal
+        </button>
+        <button id="start-block-quiz-btn" class="px-6 py-2.5 rounded-full font-bold bg-[#0284c7] hover:bg-[#38bdf8] text-white border-2 border-white transition cursor-pointer">
+          Praticar este Bloco (10 Questões) →
+        </button>
+      </div>
+    </section>
+
+    <!-- TELA 3: QUIZ -->
+    <nav id="question-nav" class="hidden flex flex-wrap items-center justify-center gap-1 mb-4 pb-3 border-b border-slate-700/60"></nav>
+
+    <section id="quiz-container" class="hidden flex-1 flex flex-col justify-between gap-4">
+      <div id="question-area" class="space-y-4"></div>
+      <div id="feedback-box" class="hidden rounded-2xl p-4 border text-sm sm:text-base leading-relaxed"></div>
+
+      <div class="pt-2 flex flex-wrap items-center justify-between gap-3">
+        <button id="prev-btn" class="px-5 py-2.5 rounded-full font-bold bg-slate-800 hover:bg-slate-700 text-white border-2 border-white/60 transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
+          ← Previous
+        </button>
+        <button id="check-btn" class="px-6 py-2.5 rounded-full font-bold bg-[#0284c7] hover:bg-[#38bdf8] text-white border-2 border-white/80 transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
+          Check
+        </button>
+        <button id="next-btn" class="px-6 py-2.5 rounded-full font-bold bg-[#0284c7] hover:bg-[#38bdf8] text-white border-2 border-white/80 transition cursor-pointer">
+          Next →
+        </button>
+      </div>
+    </section>
+
+    <!-- TELA 4: RELATÓRIO FINAL -->
+    <section id="result-screen" class="hidden flex-1 flex flex-col justify-between gap-4 py-2">
+      <div class="text-center space-y-2">
+        <h2 class="text-2xl sm:text-3xl font-bold text-[#38bdf8]">Relatório de Desempenho</h2>
+        <div class="inline-block bg-slate-900/80 border-2 border-[#38bdf8] rounded-2xl px-8 py-4">
+          <p class="text-xs uppercase tracking-wider text-[#94a3b8]">Nota Final</p>
+          <p id="final-score-text" class="text-3xl sm:text-4xl font-bold text-[#f8f9fa]"></p>
+        </div>
+      </div>
+
+      <div id="stats-summary" class="grid grid-cols-2 gap-3 text-center"></div>
+      <div id="block-report" class="space-y-2 text-sm"></div>
+      <div id="revision-alert" class="hidden rounded-2xl p-4 border border-amber-400/70 bg-amber-950/40 text-sm text-amber-100"></div>
+
+      <div class="pt-2 flex flex-wrap justify-center gap-3">
+        <button onclick="backToMenu()" class="px-6 py-2.5 rounded-full font-bold bg-slate-800 hover:bg-slate-700 text-white border-2 border-white/60 transition cursor-pointer">
+          ← Menu Principal
+        </button>
+        <button id="restart-btn" class="px-6 py-2.5 rounded-full font-bold bg-[#0284c7] hover:bg-[#38bdf8] text-white border-2 border-white transition cursor-pointer">
+          Refazer Este Quiz
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const blocksInfo = [
+      {
+        id: 0,
+        title: "Bloco 1: Orações Subordinadas Substantivas",
+        html: `
+          <h2 class="text-xl font-bold text-[#38bdf8]">Bloco 1: Orações Subordinadas Substantivas</h2>
+          <p class="text-[#94a3b8]"><strong>Dica de ouro:</strong> A oração inteira funciona como um substantivo. Se você conseguir trocar a oração por <strong>"ISSO"</strong> (ou <strong>"DISSO" / "NISSO"</strong>), ela é substantiva!</p>
+          <div class="bg-slate-900/70 border border-[#38bdf8]/40 rounded-2xl p-4 space-y-2.5">
+            <p><strong>1. Predicativa:</strong> Vem sempre depois de um <strong>verbo de ligação</strong> (<em>ser, estar, parecer</em>) indicando uma característica ou definição do sujeito.<br><span class="text-[#38bdf8]">Ex.:</span> O importante é <strong>que todos compreendam a regra</strong>. (O importante é <em>isso</em>.)</p>
+            <p><strong>2. Completiva Nominal:</strong> Completa o sentido de um <strong>nome</strong> (substantivo abstrato, adjetivo ou advérbio) e vem <strong>sempre com preposição</strong> (<em>de, em, a, com</em>).<br><span class="text-[#38bdf8]">Ex.:</span> Tenho certeza <strong>de que ele vencerá</strong>. (<em>Certeza</em> é substantivo; exige <em>de</em>.)</p>
+            <p><strong>3. Apositiva:</strong> Explica ou resume um termo anterior. Geralmente vem depois de <strong>dois-pontos (:)</strong> ou entre vírgulas/travessões.<br><span class="text-[#38bdf8]">Ex.:</span> Só desejo uma coisa<strong>: que você seja feliz</strong>.</p>
+            <p><strong>4. Pontuação:</strong> <strong>Nunca</strong> separe por vírgula a oração substantiva (subjetiva, objetiva ou completiva) do seu verbo ou nome principal. A exceção é a <strong>apositiva</strong>, que exige <strong>dois-pontos</strong> (ou vírgula/travessão).</p>
+          </div>
+        `
+      },
+      {
+        id: 1,
+        title: "Bloco 2: Orações Subordinadas Adjetivas",
+        html: `
+          <h2 class="text-xl font-bold text-[#38bdf8]">Bloco 2: Orações Subordinadas Adjetivas</h2>
+          <p class="text-[#94a3b8]"><strong>Dica de ouro:</strong> Funcionam como um <strong>adjetivo</strong> ligado a um substantivo anterior, sendo introduzidas por um <strong>pronome relativo</strong> (<em>que, o qual, quem, cujo, onde</em>).</p>
+          <div class="bg-slate-900/70 border border-[#38bdf8]/40 rounded-2xl p-4 space-y-2.5">
+            <p><strong>1. Restritiva (sem vírgula):</strong> Limita, especifica um grupo dentro do todo.<br><span class="text-[#38bdf8]">Ex.:</span> Os alunos <strong>que estudaram</strong> passaram. (Apenas os que estudaram.)</p>
+            <p><strong>2. Explicativa (com vírgulas):</strong> Acrescenta uma informação extra sobre o todo. <strong>Sempre isolada por vírgulas</strong> (ou travessões).<br><span class="text-[#38bdf8]">Ex.:</span> O Sol<strong>, que é uma estrela,</strong> aquece a Terra.</p>
+            <p><strong>3. Conectivos:</strong> <strong>Que</strong> (coisas/pessoas), <strong>quem</strong> (pessoas com preposição), <strong>cujo(a)</strong> (ideia de posse: <em>o livro cuja capa...</em>), <strong>onde</strong> (lugar fixo).</p>
+            <p><strong>4. Orações Reduzidas (sem conectivo, verbo em forma nominal):</strong><br>
+            • <strong>De infinitivo:</strong> Ele foi o primeiro <strong>a chegar</strong>. (= que chegou)<br>
+            • <strong>De gerúndio:</strong> Vi crianças <strong>brincando no parque</strong>. (= que brincavam)<br>
+            • <strong>De particípio:</strong> Li o livro <strong>indicado pelo professor</strong>. (= que foi indicado)</p>
+          </div>
+        `
+      },
+      {
+        id: 2,
+        title: "Bloco 3: Orações Subordinadas Adverbiais",
+        html: `
+          <h2 class="text-xl font-bold text-[#38bdf8]">Bloco 3: Orações Subordinadas Adverbiais</h2>
+          <p class="text-[#94a3b8]"><strong>Dica de ouro:</strong> Funcionam como um <strong>advérbio</strong>, indicando circunstância (consequência, conformidade, oposição, comparação, etc.).</p>
+          <div class="bg-slate-900/70 border border-[#38bdf8]/40 rounded-2xl p-4 space-y-2.5">
+            <p><strong>1. Consecutiva:</strong> Indica a <strong>consequência</strong> de algo intenso. Conectivos: <strong>tão... que, tanto... que, de modo que</strong>.<br><span class="text-[#38bdf8]">Ex.:</span> Estudou <strong>tanto que</strong> gabaritou a prova.</p>
+            <p><strong>2. Conformativa:</strong> Indica <strong>acordo, regra ou modelo</strong>. Conectivos: <strong>conforme, segundo, como, consoante</strong>.<br><span class="text-[#38bdf8]">Ex.:</span> Fizemos o trabalho <strong>conforme o professor orientou</strong>.</p>
+            <p><strong>3. Concessiva:</strong> Indica <strong>oposição/contraste</strong> que não impede a ação principal. Conectivos: <strong>embora, ainda que, mesmo que, apesar de que</strong>.<br><span class="text-[#38bdf8]">Ex.:</span> <strong>Embora estivesse cansado</strong>, terminou a leitura.</p>
+            <p><strong>4. Comparativa:</strong> Estabelece <strong>comparação</strong>. Conectivos: <strong>mais... (do) que, tão... quanto, como</strong>.<br><span class="text-[#38bdf8]">Ex.:</span> Ele lê <strong>mais rápido do que eu (leio)</strong>.</p>
+            <p><strong>5. Vírgula:</strong> Se a oração adverbial vier <strong>anteposta</strong> (no início da frase) ou <strong>intercalada</strong> (no meio), a <strong>vírgula é obrigatória</strong>!</p>
+          </div>
+        `
+      },
+      {
+        id: 3,
+        title: "Bloco 4: Coerência e Coesão Textual",
+        html: `
+          <h2 class="text-xl font-bold text-[#38bdf8]">Bloco 4: Coerência e Coesão Textual</h2>
+          <p class="text-[#94a3b8]"><strong>Dica de ouro:</strong> <strong>Coerência</strong> é o sentido lógico das ideias; <strong>Coesão</strong> é a costura das palavras na superfície do texto.</p>
+          <div class="bg-slate-900/70 border border-[#38bdf8]/40 rounded-2xl p-4 space-y-2.5">
+            <p><strong>1. Coerência Textual:</strong> Garante que o texto faça sentido, sem contradições entre os fatos apresentados.<br><span class="text-[#38bdf8]">Ex.:</span> Dizer "estava chovendo muito, mas a rua estava seca" quebra a coerência.</p>
+            <p><strong>2. Coesão Referencial:</strong> Retoma ou antecipa termos usando <strong>pronomes</strong> (<em>ele, isso, cujo</em>) ou <strong>advérbios</strong> (<em>lá, ali</em>) para evitar repetição.<br><span class="text-[#38bdf8]">Ex.:</span> Comprei um livro. <strong>Ele</strong> é ótimo.</p>
+            <p><strong>3. Coesão Lexical:</strong> Conecta o texto usando palavras do mesmo campo de sentido: <strong>sinônimos</strong> (<em>casa / residência</em>), <strong>hiperônimos</strong> (<em>cachorro / animal</em>) ou <strong>expressões equivalentes</strong>.<br><span class="text-[#38bdf8]">Ex.:</span> O atleta venceu. <strong>O esportista</strong> comemorou muito.</p>
+          </div>
+        `
+      }
+    ];
+
+    const allQuestions = [
+      // ================= BLOCO 1: SUBSTANTIVAS (0 - 9) =================
+      {
+        block: 0,
+        question: "1. Analise o período: 'A convicção da diretora era que os alunos alcançariam excelentes resultados na olimpíada.' A oração destacada 'que os alunos alcançariam excelentes resultados na olimpíada' classifica-se como:",
+        options: [
+          "a. Oração subordinada substantiva completiva nominal.",
+          "b. Oração subordinada substantiva predicativa.",
+          "c. Oração subordinada substantiva apositiva.",
+          "d. Oração subordinada adjetiva explicativa.",
+          "e. Oração subordinada adverbial consecutiva."
+        ],
+        correct: 1,
+        whyCorrect: "A oração vem logo após o verbo de ligação 'era' e funciona como predicativo do sujeito 'A convicção da diretora'.",
+        whyWrong: [
+          "Não é completiva nominal porque não está ligada diretamente a um nome com preposição, mas sim ao verbo de ligação 'era'.",
+          "",
+          "Não é apositiva porque não explica um termo anterior após dois-pontos ou vírgula.",
+          "Não é adjetiva porque não há pronome relativo retomando um substantivo.",
+          "Não é adverbial consecutiva porque não expressa consequência de uma intensidade."
+        ]
+      },
+      {
+        block: 0,
+        question: "2. No período: 'Os pesquisadores mantiveram a esperança de que a vacina fosse distribuída ainda este semestre.', a oração 'de que a vacina fosse distribuída ainda este semestre' é:",
+        options: [
+          "a. Oração subordinada substantiva predicativa.",
+          "b. Oração subordinada adjetiva restritiva.",
+          "c. Oração subordinada substantiva apositiva.",
+          "d. Oração subordinada substantiva completiva nominal.",
+          "e. Oração subordinada adverbial conformativa."
+        ],
+        correct: 3,
+        whyCorrect: "A oração completa o sentido do substantivo abstrato 'esperança' e é introduzida pela preposição 'de'.",
+        whyWrong: [
+          "Não é predicativa porque não vem após verbo de ligação.",
+          "Não é adjetiva porque 'que' é conjunção integrante (pode trocar por 'disso'), não pronome relativo.",
+          "Não é apositiva porque não funciona como aposto explicativo.",
+          "",
+          "Não é conformativa porque não indica acordo ou regra."
+        ]
+      },
+      {
+        block: 0,
+        question: "3. Leia: 'Durante a assembleia, o representante fez apenas uma exigência: que todos respeitassem o horário estabelecido.' A oração após os dois-pontos classifica-se como:",
+        options: [
+          "a. Oração subordinada substantiva apositiva.",
+          "b. Oração subordinada substantiva predicativa.",
+          "c. Oração subordinada substantiva completiva nominal.",
+          "d. Oração subordinada adjetiva explicativa.",
+          "e. Oração subordinada adverbial comparativa."
+        ],
+        correct: 0,
+        whyCorrect: "A oração explica e especifica o termo anterior 'apenas uma exigência', vindo após dois-pontos.",
+        whyWrong: [
+          "",
+          "Não é predicativa porque não há verbo de ligação ligando-a ao sujeito.",
+          "Não é completiva nominal porque não completa um nome com preposição obrigatória.",
+          "Não é adjetiva porque 'que' é conjunção integrante, e não pronome relativo.",
+          "Não é comparativa porque não estabelece comparação entre elementos."
+        ]
+      },
+      {
+        block: 0,
+        question: "4. Assinale a alternativa em que a pontuação da oração subordinada substantiva está RIGOROSAMENTE CORRETA:",
+        options: [
+          "a. É fundamental, que os estudantes revisem o conteúdo antes da prova.",
+          "b. O médico tinha certeza, de que o tratamento funcionaria.",
+          "c. Meu maior desejo é este: que você conquiste seus objetivos.",
+          "d. Parecia óbvio, que a equipe venceria o campeonato.",
+          "e. Todos sabiam, que o projeto exigiria muita dedicação."
+        ],
+        correct: 2,
+        whyCorrect: "A oração substantiva apositiva exige dois-pontos antes dela ('este: que você conquiste...').",
+        whyWrong: [
+          "Não se usa vírgula entre o verbo de ligação ('É fundamental') e a oração subjetiva.",
+          "Não se usa vírgula entre o nome ('certeza') e sua completiva nominal.",
+          "",
+          "Não se separa por vírgula a oração subjetiva do verbo principal ('Parecia óbvio').",
+          "Não se separa por vírgula o verbo transitivo direto ('sabiam') do seu objeto direto."
+        ]
+      },
+      {
+        block: 0,
+        question: "5. Em: 'O problema do trânsito nas grandes metrópoles é que falta investimento no transporte público.', a oração em destaque é:",
+        options: [
+          "a. Oração subordinada substantiva completiva nominal.",
+          "b. Oração subordinada adjetiva restritiva.",
+          "c. Oração subordinada substantiva apositiva.",
+          "d. Oração subordinada adverbial concessiva.",
+          "e. Oração subordinada substantiva predicativa."
+        ],
+        correct: 4,
+        whyCorrect: "Vem após o verbo de ligação 'é', funcionando como predicativo do sujeito 'O problema do trânsito nas grandes metrópoles'.",
+        whyWrong: [
+          "Não completa um nome com preposição; liga-se ao sujeito pelo verbo 'é'.",
+          "Não é adjetiva porque 'que' não retoma um substantivo anterior.",
+          "Não é apositiva porque não está explicando um termo após dois-pontos.",
+          "Não é concessiva porque não expressa contraste ou oposição.",
+          ""
+        ]
+      },
+      {
+        block: 0,
+        question: "6. Identifique a classificação da oração destacada: 'A população estava receosa de que as chuvas intensas provocassem novos deslizamentos.'",
+        options: [
+          "a. Oração subordinada substantiva completiva nominal.",
+          "b. Oração subordinada substantiva predicativa.",
+          "c. Oração subordinada substantiva apositiva.",
+          "d. Oração subordinada adverbial consecutiva.",
+          "e. Oração subordinada adjetiva explicativa."
+        ],
+        correct: 0,
+        whyCorrect: "Completa o sentido do adjetivo 'receosa' (receosa DE QUÊ?) e vem com a preposição 'de'.",
+        whyWrong: [
+          "",
+          "O verbo 'estava' liga o sujeito ao adjetivo 'receosa', e a oração completa esse adjetivo.",
+          "Não funciona como aposto explicativo.",
+          "Não indica consequência de uma intensidade.",
+          "Não há pronome relativo nem vírgulas explicativas."
+        ]
+      },
+      {
+        block: 0,
+        question: "7. Analise: 'Ninguém duvidava de uma verdade absoluta: que a dedicação diária transforma qualquer dificuldade em aprendizado.' A oração após os dois-pontos é:",
+        options: [
+          "a. Oração subordinada substantiva predicativa.",
+          "b. Oração subordinada substantiva completiva nominal.",
+          "c. Oração subordinada substantiva apositiva.",
+          "d. Oração subordinada adjetiva restritiva.",
+          "e. Oração subordinada adverbial conformativa."
+        ],
+        correct: 2,
+        whyCorrect: "A oração explica e especifica o termo 'uma verdade absoluta', característica clássica da apositiva.",
+        whyWrong: [
+          "Não há verbo de ligação ligando-a ao sujeito.",
+          "Não é completiva nominal porque não tem preposição regida por um nome; ela explica 'uma verdade absoluta'.",
+          "",
+          "Não é adjetiva porque 'que' é conjunção integrante.",
+          "Não indica conformidade ou regra."
+        ]
+      },
+      {
+        block: 0,
+        question: "8. Por que NÃO há vírgula antes de 'que' em 'Temos plena convicção de que a ciência encontrará respostas'?",
+        options: [
+          "a. Porque a oração é adjetiva explicativa.",
+          "b. Porque é uma oração subordinada substantiva completiva nominal, que não pode ser separada do nome por vírgula.",
+          "c. Porque toda oração com 'que' proíbe o uso de vírgula.",
+          "d. Porque se trata de uma oração adverbial anteposta.",
+          "e. Porque é uma oração apositiva."
+        ],
+        correct: 1,
+        whyCorrect: "A oração completa o sentido do nome 'convicção' (completiva nominal), e nunca se separa o complemento do nome por vírgula.",
+        whyWrong: [
+          "Adjetivas explicativas exigem vírgula, o que não ocorre aqui.",
+          "",
+          "Orações adjetivas explicativas começam com 'que' e levam vírgula.",
+          "A oração não é adverbial nem está no início da frase.",
+          "Apositivas costumam levar dois-pontos ou vírgula."
+        ]
+      },
+      {
+        block: 0,
+        question: "9. Em qual alternativa encontramos uma oração subordinada substantiva PREDICATIVA?",
+        options: [
+          "a. Tenho medo de que o atraso prejudique a apresentação.",
+          "b. Só peço isto: que mantenham a calma durante o exame.",
+          "c. Os livros que comprei chegaram ontem.",
+          "d. A impressão dos jurados foi que o candidato dominava o tema.",
+          "e. Embora chovesse, fomos ao teatro."
+        ],
+        correct: 3,
+        whyCorrect: "O verbo 'foi' (verbo de ligação) liga o sujeito 'A impressão dos jurados' à oração predicativa.",
+        whyWrong: [
+          "É completiva nominal (completa 'medo').",
+          "É apositiva (explica 'isto').",
+          "É adjetiva restritiva ('que' = os quais).",
+          "",
+          "É adverbial concessiva ('Embora')."
+        ]
+      },
+      {
+        block: 0,
+        question: "10. Leia: 'A necessidade de que todos colaborem com a reciclagem tornou-se urgente.' A oração destacada é:",
+        options: [
+          "a. Oração subordinada substantiva apositiva.",
+          "b. Oração subordinada substantiva predicativa.",
+          "c. Oração subordinada adjetiva explicativa.",
+          "d. Oração subordinada adverbial comparativa.",
+          "e. Oração subordinada substantiva completiva nominal."
+        ],
+        correct: 4,
+        whyCorrect: "Completa o sentido do substantivo abstrato 'necessidade' e vem introduzida pela preposição 'de'.",
+        whyWrong: [
+          "Não explica um termo após dois-pontos.",
+          "Não vem após verbo de ligação.",
+          "Não há pronome relativo.",
+          "Não estabelece comparação.",
+          ""
+        ]
+      },
+
+      // ================= BLOCO 2: ADJETIVAS (10 - 19) =================
+      {
+        block: 1,
+        question: "11. Analise: 'Os cientistas, que dedicam anos à pesquisa, merecem reconhecimento.' A oração entre vírgulas classifica-se como:",
+        options: [
+          "a. Oração subordinada adjetiva restritiva.",
+          "b. Oração subordinada adjetiva explicativa.",
+          "c. Oração subordinada substantiva apositiva.",
+          "d. Oração subordinada adverbial conformativa.",
+          "e. Oração subordinada adjetiva reduzida de gerúndio."
+        ],
+        correct: 1,
+        whyCorrect: "Vem isolada por vírgulas e acrescenta uma informação geral sobre todos os cientistas.",
+        whyWrong: [
+          "A restritiva não leva vírgulas e limita apenas a um grupo.",
+          "",
+          "Não é substantiva porque 'que' é pronome relativo (= os quais).",
+          "Não indica conformidade.",
+          "O verbo 'dedicam' está conjugado, não no gerúndio."
+        ]
+      },
+      {
+        block: 1,
+        question: "12. Assinale a alternativa em que o conectivo (pronome relativo) está empregado CORRETAMENTE:",
+        options: [
+          "a. Visitei a cidade onde nasceu meu avô.",
+          "b. O livro onde li ontem era fascinante.",
+          "c. A aluna cujo o caderno sumiu está preocupada.",
+          "d. O filme que assisti ontem foi premiado.",
+          "e. A pessoa que eu confio muito viajou."
+        ],
+        correct: 0,
+        whyCorrect: "'Onde' retoma corretamente um lugar físico ('a cidade').",
+        whyWrong: [
+          "",
+          "'Onde' só pode ser usado para lugar; para 'livro', usa-se 'que'.",
+          "Nunca se usa artigo depois de 'cujo' (o correto é 'cujo caderno').",
+          "Quem assiste (ver) assiste A algo: faltou a preposição 'a' ('a que assisti').",
+          "Quem confia confia EM alguém: faltou a preposição 'em' ('em quem confio')."
+        ]
+      },
+      {
+        block: 1,
+        question: "13. Em: 'Ele foi o único candidato a responder corretamente todas as questões.', a oração 'a responder corretamente todas as questões' é:",
+        options: [
+          "a. Oração subordinada adjetiva reduzida de gerúndio.",
+          "b. Oração subordinada adjetiva reduzida de particípio.",
+          "c. Oração subordinada adjetiva reduzida de infinitivo.",
+          "d. Oração subordinada substantiva completiva nominal.",
+          "e. Oração subordinada adverbial consecutiva."
+        ],
+        correct: 2,
+        whyCorrect: "Equivale a 'que respondeu' (adjetiva) e o verbo está no infinitivo ('responder').",
+        whyWrong: [
+          "Gerúndio termina em -ndo (respondendo).",
+          "Particípio seria 'respondido'.",
+          "",
+          "Funciona como adjetivo ligado a 'candidato', não como substantivo.",
+          "Não indica consequência."
+        ]
+      },
+      {
+        block: 1,
+        question: "14. Analise: 'Observamos os pássaros voando livremente sobre a reserva ambiental.' A oração 'voando livremente sobre a reserva ambiental' é:",
+        options: [
+          "a. Oração subordinada adjetiva reduzida de gerúndio.",
+          "b. Oração subordinada adjetiva reduzida de infinitivo.",
+          "c. Oração subordinada adjetiva reduzida de particípio.",
+          "d. Oração subordinada substantiva predicativa.",
+          "e. Oração subordinada adverbial comparativa."
+        ],
+        correct: 0,
+        whyCorrect: "Equivale a 'que voavam' (adjetiva) e o verbo 'voando' está no gerúndio.",
+        whyWrong: [
+          "",
+          "Infinitivo seria 'voar'.",
+          "Particípio seria 'voado'.",
+          "Não há verbo de ligação.",
+          "Não há comparação."
+        ]
+      },
+      {
+        block: 1,
+        question: "15. Leia: 'Os documentos assinados pelo diretor foram arquivados no cofre.' A oração 'assinados pelo diretor' classifica-se como:",
+        options: [
+          "a. Oração subordinada adjetiva reduzida de infinitivo.",
+          "b. Oração subordinada adjetiva reduzida de gerúndio.",
+          "c. Oração subordinada substantiva apositiva.",
+          "d. Oração subordinada adjetiva reduzida de particípio.",
+          "e. Oração subordinada adverbial concessiva."
+        ],
+        correct: 3,
+        whyCorrect: "Equivale a 'que foram assinados' (adjetiva) e o verbo 'assinados' está no particípio.",
+        whyWrong: [
+          "Infinitivo seria 'assinar'.",
+          "Gerúndio seria 'assinando'.",
+          "Não é apositiva.",
+          "",
+          "Não indica concessão."
+        ]
+      },
+      {
+        block: 1,
+        question: "16. Em relação ao emprego da vírgula em estruturas explicativas, qual frase apresenta sentido GERAL (todos os membros do grupo)?",
+        options: [
+          "a. Os atletas que treinaram bastante ganharam medalhas.",
+          "b. Os atletas, que treinaram bastante, ganharam medalhas.",
+          "c. Os alunos que entregaram o trabalho saíram cedo.",
+          "d. As pessoas que praticam esportes têm mais saúde.",
+          "e. Os livros que tratam de história estão na estante."
+        ],
+        correct: 1,
+        whyCorrect: "As vírgulas isolam a adjetiva explicativa, indicando que TODOS os atletas treinaram bastante e ganharam medalhas.",
+        whyWrong: [
+          "Sem vírgulas é restritiva: apenas os que treinaram ganharam.",
+          "",
+          "Sem vírgulas: apenas os que entregaram saíram cedo.",
+          "Sem vírgulas: apenas as que praticam esportes.",
+          "Sem vírgulas: apenas os livros de história."
+        ]
+      },
+      {
+        block: 1,
+        question: "17. Assinale a frase em que o uso da vírgula na oração adjetiva está INCORRETO:",
+        options: [
+          "a. O Brasil, que é um país continental, possui grande biodiversidade.",
+          "b. A Amazônia, cuja fauna é riquíssima, precisa de preservação.",
+          "c. O professor, que corrigiu as provas ontem, elogiou a turma.",
+          "d. Os estudantes, que não fizeram a tarefa ficaram sem ponto extra.",
+          "e. Machado de Assis, que fundou a Academia Brasileira de Letras, escreveu grandes romances."
+        ],
+        correct: 3,
+        whyCorrect: "Se a oração é explicativa, precisa de DUAS vírgulas (uma antes de 'que' e outra depois de 'tarefa'). Faltou a segunda vírgula!",
+        whyWrong: [
+          "Está correta: duas vírgulas isolando a explicativa.",
+          "Está correta: duas vírgulas isolando a explicativa.",
+          "Está correta: duas vírgulas isolando a explicativa.",
+          "",
+          "Está correta: duas vírgulas isolando a explicativa."
+        ]
+      },
+      {
+        block: 1,
+        question: "18. 'O escritor cuja obra foi premiada dará uma palestra hoje.' O pronome relativo 'cuja' indica:",
+        options: [
+          "a. Lugar.",
+          "b. Tempo.",
+          "c. Posse (a obra pertence ao escritor).",
+          "d. Consequência.",
+          "e. Oposição."
+        ],
+        correct: 2,
+        whyCorrect: "'Cujo(a)' é o pronome relativo que estabelece relação de posse entre o termo anterior ('escritor') e o seguinte ('obra').",
+        whyWrong: [
+          "Lugar é indicado por 'onde'.",
+          "Tempo é indicado por 'quando'.",
+          "",
+          "Consequência é ideia de oração adverbial.",
+          "Oposição é ideia de oração concessiva."
+        ]
+      },
+      {
+        block: 1,
+        question: "19. Transformando a oração desenvolvida 'As cartas que foram enviadas pelo correio chegaram hoje' em reduzida, teremos:",
+        options: [
+          "a. As cartas enviadas pelo correio chegaram hoje. (reduzida de particípio)",
+          "b. As cartas enviando pelo correio chegaram hoje. (reduzida de gerúndio)",
+          "c. As cartas a enviar pelo correio chegaram hoje. (reduzida de infinitivo)",
+          "d. As cartas, que enviaram pelo correio, chegaram hoje. (explicativa)",
+          "e. As cartas para enviar pelo correio chegaram hoje. (substantiva)"
+        ],
+        correct: 0,
+        whyCorrect: "'Que foram enviadas' reduz-se perfeitamente para o particípio 'enviadas', mantendo o sentido passivo.",
+        whyWrong: [
+          "",
+          "'Enviando' tem sentido ativo, mudando a lógica da frase.",
+          "'A enviar' indica algo que ainda vai acontecer.",
+          "Continua desenvolvida (tem o 'que').",
+          "Não é oração substantiva."
+        ]
+      },
+      {
+        block: 1,
+        question: "20. Em: 'Aquela é a empresa onde trabalhei por cinco anos.', a oração destacada é:",
+        options: [
+          "a. Oração subordinada adverbial de lugar.",
+          "b. Oração subordinada substantiva predicativa.",
+          "c. Oração subordinada adjetiva explicativa.",
+          "d. Oração subordinada adjetiva reduzida.",
+          "e. Oração subordinada adjetiva restritiva."
+        ],
+        correct: 4,
+        whyCorrect: "'Onde' é pronome relativo (= na qual) retomando 'a empresa', sem vírgulas, portanto adjetiva restritiva.",
+        whyWrong: [
+          "Como 'onde' retoma o substantivo 'empresa', a oração é adjetiva, não adverbial.",
+          "Não funciona como predicativo.",
+          "Não está entre vírgulas.",
+          "O verbo 'trabalhei' está conjugado, não em forma nominal.",
+          ""
+        ]
+      },
+
+      // ================= BLOCO 3: ADVERBIAIS (20 - 29) =================
+      {
+        block: 2,
+        question: "21. Analise: 'O palestrante falou com tanta clareza que todos compreenderam o tema complexo.' A oração 'que todos compreenderam o tema complexo' é:",
+        options: [
+          "a. Oração subordinada adverbial comparativa.",
+          "b. Oração subordinada adverbial conformativa.",
+          "c. Oração subordinada adverbial consecutiva.",
+          "d. Oração subordinada adverbial concessiva.",
+          "e. Oração subordinada adjetiva restritiva."
+        ],
+        correct: 2,
+        whyCorrect: "Expressa a consequência da intensidade expressa em 'tanta clareza'.",
+        whyWrong: [
+          "Não há comparação entre dois elementos.",
+          "Não indica acordo ou regra.",
+          "",
+          "Não indica oposição.",
+          "Não há pronome relativo retomando substantivo."
+        ]
+      },
+      {
+        block: 2,
+        question: "22. Em: 'Realizamos o experimento científico conforme o manual de instruções determinava.', a oração destacada classifica-se como:",
+        options: [
+          "a. Oração subordinada adverbial conformativa.",
+          "b. Oração subordinada adverbial consecutiva.",
+          "c. Oração subordinada adverbial concessiva.",
+          "d. Oração subordinada adverbial comparativa.",
+          "e. Oração subordinada substantiva apositiva."
+        ],
+        correct: 0,
+        whyCorrect: "A conjunção 'conforme' indica que a ação ocorreu de acordo com um modelo ou regra.",
+        whyWrong: [
+          "",
+          "Não indica consequência.",
+          "Não indica contraste.",
+          "Não estabelece comparação.",
+          "Não funciona como aposto."
+        ]
+      },
+      {
+        block: 2,
+        question: "23. Leia: 'Embora o trânsito estivesse completamente parado, conseguimos chegar antes do início da peça.' A oração inicial é:",
+        options: [
+          "a. Oração subordinada adverbial consecutiva.",
+          "b. Oração subordinada adverbial conformativa.",
+          "c. Oração subordinada adverbial comparativa.",
+          "d. Oração subordinada adverbial concessiva.",
+          "e. Oração subordinada adjetiva explicativa."
+        ],
+        correct: 3,
+        whyCorrect: "'Embora' introduz um fato contrário (trânsito parado) que não impediu a ação principal (chegar a tempo).",
+        whyWrong: [
+          "Não indica consequência.",
+          "Não indica conformidade.",
+          "Não há comparação.",
+          "",
+          "Não há pronome relativo."
+        ]
+      },
+      {
+        block: 2,
+        question: "24. Em: 'A nova biblioteca possui mais livros digitais do que a antiga possuía.', a oração 'do que a antiga possuía' é:",
+        options: [
+          "a. Oração subordinada adverbial consecutiva.",
+          "b. Oração subordinada adverbial comparativa.",
+          "c. Oração subordinada adverbial concessiva.",
+          "d. Oração subordinada adverbial conformativa.",
+          "e. Oração subordinada substantiva completiva nominal."
+        ],
+        correct: 1,
+        whyCorrect: "Estabelece uma comparação de superioridade ('mais... do que') entre duas bibliotecas.",
+        whyWrong: [
+          "Não indica consequência.",
+          "",
+          "Não indica oposição.",
+          "Não indica conformidade.",
+          "Não completa um nome com preposição."
+        ]
+      },
+      {
+        block: 2,
+        question: "25. Assinale a alternativa em que a vírgula foi usada OBRIGATORIAMENTE por haver uma oração subordinada adverbial ANTEPOSTA:",
+        options: [
+          "a. Os alunos, que estudam muito, têm ótimas notas.",
+          "b. Desejo apenas isto: que sejam felizes.",
+          "c. Mesmo que chova forte amanhã, a excursão escolar será mantida.",
+          "d. Tenho certeza de que tudo dará certo.",
+          "e. O livro que li ontem era excelente."
+        ],
+        correct: 2,
+        whyCorrect: "A oração adverbial concessiva ('Mesmo que chova forte amanhã') veio no início da frase (anteposta), exigindo a vírgula.",
+        whyWrong: [
+          "É uma oração adjetiva explicativa intercalada.",
+          "É uma oração substantiva apositiva.",
+          "",
+          "É uma oração substantiva completiva nominal.",
+          "É uma oração adjetiva restritiva."
+        ]
+      },
+      {
+        block: 2,
+        question: "26. Em qual alternativa temos uma oração subordinada adverbial INTERCALADA corretamente pontuada?",
+        options: [
+          "a. O projeto, conforme havia sido combinado na reunião, foi entregue no prazo.",
+          "b. O projeto conforme havia sido combinado na reunião, foi entregue no prazo.",
+          "c. Conforme havia sido combinado na reunião, o projeto foi entregue no prazo.",
+          "d. O projeto foi entregue no prazo conforme havia sido combinado.",
+          "e. O projeto, que foi entregue no prazo, estava ótimo."
+        ],
+        correct: 0,
+        whyCorrect: "A oração conformativa está no meio da oração principal (intercalada) e isolada por duas vírgulas.",
+        whyWrong: [
+          "",
+          "Faltou a primeira vírgula antes de 'conforme'.",
+          "Aqui a oração está anteposta (no início), não intercalada.",
+          "Aqui a oração está posposta (no final).",
+          "Aqui temos uma adjetiva explicativa, não adverbial."
+        ]
+      },
+      {
+        block: 2,
+        question: "27. 'Choveu tanto durante a madrugada que as ruas do bairro amanheceram alagadas.' A relação estabelecida pela segunda oração é de:",
+        options: [
+          "a. Conformidade.",
+          "b. Comparação.",
+          "c. Concessão.",
+          "d. Consequência.",
+          "e. Explicação adjetiva."
+        ],
+        correct: 3,
+        whyCorrect: "'Tanto... que' indica a consequência da chuva intensa: as ruas alagaram.",
+        whyWrong: [
+          "Não segue um modelo ou regra.",
+          "Não compara dois elementos.",
+          "Não há oposição; o alagamento é resultado esperado da chuva forte.",
+          "",
+          "Não qualifica um substantivo."
+        ]
+      },
+      {
+        block: 2,
+        question: "28. Qual conectivo pode substituir 'Embora' em 'Embora estivesse doente, compareceu ao trabalho' sem alterar o sentido?",
+        options: [
+          "a. Conforme.",
+          "b. Portanto.",
+          "c. Ainda que.",
+          "d. De modo que.",
+          "e. Assim como."
+        ],
+        correct: 2,
+        whyCorrect: "'Ainda que' também é uma conjunção concessiva, mantendo o mesmo sentido de oposição.",
+        whyWrong: [
+          "'Conforme' indica conformidade.",
+          "'Portanto' indica conclusão.",
+          "",
+          "'De modo que' indica consequência.",
+          "'Assim como' indica comparação."
+        ]
+      },
+      {
+        block: 2,
+        question: "29. Analise: 'Segundo afirmaram os meteorologistas, a frente fria chegará no fim de semana.' A oração inicial é:",
+        options: [
+          "a. Adverbial conformativa anteposta.",
+          "b. Adverbial consecutiva posposta.",
+          "c. Adverbial comparativa intercalada.",
+          "d. Substantiva apositiva.",
+          "e. Adjetiva explicativa."
+        ],
+        correct: 0,
+        whyCorrect: "'Segundo' é conectivo conformativo e a oração está no início da frase (anteposta), separada por vírgula.",
+        whyWrong: [
+          "",
+          "Não indica consequência nem está no final.",
+          "Não compara nem está no meio da frase.",
+          "Não explica um termo após dois-pontos.",
+          "Não há pronome relativo."
+        ]
+      },
+      {
+        block: 2,
+        question: "30. 'Ele dedica-se aos estudos tanto quanto o irmão.' A oração destacada expressa ideia de:",
+        options: [
+          "a. Consequência.",
+          "b. Concessão.",
+          "c. Conformidade.",
+          "d. Comparação.",
+          "e. Explicação."
+        ],
+        correct: 3,
+        whyCorrect: "'Tanto quanto' estabelece uma comparação de igualdade entre a dedicação dele e a do irmão.",
+        whyWrong: [
+          "Consequência seria 'tanto que'.",
+          "Não há oposição.",
+          "Não há regra ou modelo.",
+          "",
+          "Não é explicativa."
+        ]
+      },
+
+      // ================= BLOCO 4: COERÊNCIA E COESÃO (30 - 39) =================
+      {
+        block: 3,
+        question: "31. Leia: 'O dia estava ensolarado e sem nenhuma nuvem no céu, por isso todos abriram seus guarda-chuvas para se proteger da tempestade.' Esse texto apresenta um problema de:",
+        options: [
+          "a. Coesão referencial.",
+          "b. Coerência textual.",
+          "c. Pontuação de oração apositiva.",
+          "d. Coesão lexical.",
+          "e. Uso de pronome relativo."
+        ],
+        correct: 1,
+        whyCorrect: "Há uma contradição lógica (dia sem nuvens x tempestade), o que caracteriza quebra de coerência textual.",
+        whyWrong: [
+          "Os pronomes estão usados corretamente.",
+          "",
+          "Não há oração apositiva.",
+          "O vocabulário está ligado ao mesmo tema, mas as ideias se contradizem.",
+          "Não há pronome relativo na frase."
+        ]
+      },
+      {
+        block: 3,
+        question: "32. Em: 'Machado de Assis escreveu grandes contos. Ele é considerado um dos maiores autores brasileiros.', o termo 'Ele' garante a:",
+        options: [
+          "a. Coesão referencial.",
+          "b. Coesão lexical por hiperonímia.",
+          "c. Quebra de coerência.",
+          "d. Oração adverbial concessiva.",
+          "e. Oração substantiva predicativa."
+        ],
+        correct: 0,
+        whyCorrect: "O pronome 'Ele' retoma o referente 'Machado de Assis', evitando repetição — exemplo clássico de coesão referencial.",
+        whyWrong: [
+          "",
+          "Coesão lexical usa outro substantivo/sinônimo, não um pronome pessoal.",
+          "O texto faz total sentido.",
+          "Não há conectivo concessivo.",
+          "Não há oração predicativa."
+        ]
+      },
+      {
+        block: 3,
+        question: "33. Analise: 'O cachorro latiu a noite inteira. O animal parecia assustado com os trovões.' A substituição de 'cachorro' por 'animal' é um recurso de:",
+        options: [
+          "a. Coesão referencial por pronome.",
+          "b. Incoerência textual.",
+          "c. Coesão lexical (hiperônimo).",
+          "d. Oração adjetiva reduzida.",
+          "e. Oração adverbial consecutiva."
+        ],
+        correct: 2,
+        whyCorrect: "'Animal' é um termo mais abrangente (hiperônimo) que retoma 'cachorro', caracterizando a coesão lexical.",
+        whyWrong: [
+          "Não foi usado um pronome, mas sim outro substantivo.",
+          "O texto é perfeitamente coerente.",
+          "",
+          "Não há oração reduzida.",
+          "Não há consequência."
+        ]
+      },
+      {
+        block: 3,
+        question: "34. Em: 'Comprei uma bicicleta nova, mas deixei-a na garagem porque lá é mais seguro.', os termos '-a' e 'lá' são exemplos de:",
+        options: [
+          "a. Coesão lexical.",
+          "b. Coesão referencial.",
+          "c. Quebra de coerência.",
+          "d. Oração apositiva.",
+          "e. Oração comparativa."
+        ],
+        correct: 1,
+        whyCorrect: "O pronome '-a' retoma 'bicicleta' e o advérbio 'lá' retoma 'garagem' — ambos fazem coesão referencial.",
+        whyWrong: [
+          "Não usam sinônimos ou hiperônimos, mas sim pronome e advérbio.",
+          "",
+          "O sentido é lógico.",
+          "Não há aposto.",
+          "Não há comparação."
+        ]
+      },
+      {
+        block: 3,
+        question: "35. Qual alternativa apresenta um exemplo de COESÃO LEXICAL por sinonímia?",
+        options: [
+          "a. Vi a professora no corredor e entreguei-lhe o trabalho.",
+          "b. Fui ao mercado, mas esqueci a lista lá.",
+          "c. O atleta cruzou a linha de chegada. O esportista comemorou a vitória.",
+          "d. Embora estivesse cansado, ele continuou.",
+          "e. O importante é que todos participem."
+        ],
+        correct: 2,
+        whyCorrect: "'O esportista' retoma 'O atleta' por meio de um sinônimo/expressão equivalente, caracterizando coesão lexical.",
+        whyWrong: [
+          "Usa o pronome 'lhe' (coesão referencial).",
+          "Usa o advérbio 'lá' (coesão referencial).",
+          "",
+          "Usa conjunção concessiva e pronome 'ele'.",
+          "É uma oração substantiva predicativa."
+        ]
+      },
+      {
+        block: 3,
+        question: "36. A coerência textual depende principalmente:",
+        options: [
+          "a. Apenas do uso correto das vírgulas.",
+          "b. Da relação lógica e da ausência de contradições entre as ideias do texto.",
+          "c. Da repetição constante das mesmas palavras.",
+          "d. Do uso exclusivo de orações reduzidas.",
+          "e. Da quantidade de adjetivos presentes no parágrafo."
+        ],
+        correct: 1,
+        whyCorrect: "Coerência é a construção do sentido lógico, garantindo que as ideias não se contradigam.",
+        whyWrong: [
+          "Pontuação ajuda na clareza, mas coerência é o sentido lógico global.",
+          "",
+          "Repetição excessiva prejudica a coesão.",
+          "Orações reduzidas são apenas uma escolha sintática.",
+          "Quantidade de adjetivos não define coerência."
+        ]
+      },
+      {
+        block: 3,
+        question: "37. Em: 'A equipe venceu o torneio. Esse resultado motivou todos os jogadores.', a expressão 'Esse resultado' promove:",
+        options: [
+          "a. Coesão referencial, pois o pronome demonstrativo 'Esse' retoma a ideia anterior.",
+          "b. Quebra de coerência.",
+          "c. Oração adjetiva explicativa.",
+          "d. Oração adverbial conformativa.",
+          "e. Oração substantiva completiva nominal."
+        ],
+        correct: 0,
+        whyCorrect: "O pronome demonstrativo 'Esse' aponta para o que já foi dito ('venceu o torneio'), fazendo coesão referencial.",
+        whyWrong: [
+          "",
+          "As ideias estão bem conectadas e lógicas.",
+          "Não há pronome relativo nem vírgulas explicativas.",
+          "Não indica conformidade.",
+          "Não completa um nome com preposição."
+        ]
+      },
+      {
+        block: 3,
+        question: "38. Leia: 'As florestas tropicais abrigam milhares de espécies. Esses ecossistemas precisam de proteção.' O termo 'ecossistemas' estabelece:",
+        options: [
+          "a. Coesão lexical, substituindo 'florestas tropicais' por um termo mais abrangente.",
+          "b. Incoerência textual.",
+          "c. Oração adverbial comparativa.",
+          "d. Oração substantiva predicativa.",
+          "e. Erro de pontuação."
+        ],
+        correct: 0,
+        whyCorrect: "'Ecossistemas' é um hiperônimo que retoma 'florestas tropicais' no campo do léxico.",
+        whyWrong: [
+          "",
+          "O texto é coerente.",
+          "Não há comparação.",
+          "Não há verbo de ligação com oração predicativa.",
+          "A pontuação está correta."
+        ]
+      },
+      {
+        block: 3,
+        question: "39. Qual é a principal função da coesão textual?",
+        options: [
+          "a. Aumentar o número de páginas de um texto.",
+          "b. Ligar palavras, frases e parágrafos, evitando repetições desnecessárias e facilitando a leitura.",
+          "c. Substituir todos os verbos por substantivos.",
+          "d. Eliminar todas as vírgulas do texto.",
+          "e. Criar contradições entre os parágrafos."
+        ],
+        correct: 1,
+        whyCorrect: "A coesão é a 'costura' do texto, conectando seus elementos para dar fluidez e evitar repetições.",
+        whyWrong: [
+          "Não tem relação com o tamanho do texto.",
+          "",
+          "Verbos são essenciais na maioria das orações.",
+          "Vírgulas são fundamentais para a coesão e clareza.",
+          "Contradições quebram a coerência."
+        ]
+      },
+      {
+        block: 3,
+        question: "40. 'A cidade de Aracaju possui belas praias. A capital sergipana atrai muitos turistas.' A expressão 'A capital sergipana' é um exemplo de:",
+        options: [
+          "a. Oração adverbial concessiva.",
+          "b. Coesão referencial por advérbio.",
+          "c. Quebra de coerência.",
+          "d. Coesão lexical por expressão equivalente.",
+          "e. Oração adjetiva reduzida de infinitivo."
+        ],
+        correct: 3,
+        whyCorrect: "'A capital sergipana' retoma 'A cidade de Aracaju' usando uma expressão lexical equivalente.",
+        whyWrong: [
+          "Não há conjunção concessiva.",
+          "Não é advérbio, mas sim uma expressão nominal equivalente.",
+          "O texto é totalmente coerente.",
+          "",
+          "Não há verbo no infinitivo."
+        ]
+      }
+    ];
+
+    let activeQuestions = [];
+    let currentMode = "all";
+    let currentIndex = 0;
+    let userSelections = [];
+    let checkedQuestions = [];
+
+    const menuScreen = document.getElementById("menu-screen");
+    const studyScreen = document.getElementById("study-screen");
+    const studyContent = document.getElementById("study-content");
+    const startBlockQuizBtn = document.getElementById("start-block-quiz-btn");
+    const headerSubtitle = document.getElementById("header-subtitle");
+    const quizBadges = document.getElementById("quiz-badges");
+    const progressBadge = document.getElementById("progress-badge");
+    const scoreBadge = document.getElementById("score-badge");
+    const questionNav = document.getElementById("question-nav");
+    const quizContainer = document.getElementById("quiz-container");
+    const questionArea = document.getElementById("question-area");
+    const feedbackBox = document.getElementById("feedback-box");
+    const prevBtn = document.getElementById("prev-btn");
+    const checkBtn = document.getElementById("check-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const resultScreen = document.getElementById("result-screen");
+    const finalScoreText = document.getElementById("final-score-text");
+    const statsSummary = document.getElementById("stats-summary");
+    const blockReport = document.getElementById("block-report");
+    const revisionAlert = document.getElementById("revision-alert");
+    const restartBtn = document.getElementById("restart-btn");
+
+    function hideAllScreens() {
+      menuScreen.classList.add("hidden");
+      studyScreen.classList.add("hidden");
+      questionNav.classList.add("hidden");
+      quizContainer.classList.add("hidden");
+      resultScreen.classList.add("hidden");
+      quizBadges.classList.add("hidden");
+    }
+
+    window.backToMenu = function () {
+      hideAllScreens();
+      headerSubtitle.textContent = "Guia Prático e Simulado Avaliativo";
+      menuScreen.classList.remove("hidden");
+    };
+
+    window.openStudyBlock = function (blockId) {
+      hideAllScreens();
+      headerSubtitle.textContent = blocksInfo[blockId].title;
+      studyContent.innerHTML = blocksInfo[blockId].html;
+      startBlockQuizBtn.onclick = () => startQuiz(blockId);
+      studyScreen.classList.remove("hidden");
+    };
+
+    window.startQuiz = function (mode) {
+      currentMode = mode;
+      activeQuestions = mode === "all"
+        ? allQuestions
+        : allQuestions.filter(q => q.block === mode);
+
+      currentIndex = 0;
+      userSelections = Array(activeQuestions.length).fill(null);
+      checkedQuestions = Array(activeQuestions.length).fill(false);
+
+      hideAllScreens();
+      headerSubtitle.textContent = mode === "all"
+        ? "Simulado Geral (40 Questões)"
+        : blocksInfo[mode].title;
+      quizBadges.classList.remove("hidden");
+      questionNav.classList.remove("hidden");
+      quizContainer.classList.remove("hidden");
+      renderQuestion();
+    };
+
+    function calculateScore() {
+      let correctCount = 0;
+      for (let i = 0; i < activeQuestions.length; i++) {
+        if (checkedQuestions[i] && userSelections[i] === activeQuestions[i].correct) {
+          correctCount++;
+        }
+      }
+      return (correctCount / activeQuestions.length) * 10;
+    }
+
+    function updateScoreBadge() {
+      scoreBadge.textContent = `Nota: ${calculateScore().toFixed(1)} / 10`;
+    }
+
+    function renderNav() {
+      questionNav.innerHTML = "";
+      activeQuestions.forEach((_, idx) => {
+        const btn = document.createElement("button");
+        btn.textContent = idx + 1;
+        btn.onclick = () => {
+          currentIndex = idx;
+          renderQuestion();
+        };
+
+        let classes = "w-6 h-6 rounded-full text-[11px] font-bold border transition cursor-pointer flex items-center justify-center ";
+        if (idx === currentIndex) {
+          classes += "bg-[#38bdf8] text-slate-950 border-white scale-110 shadow ";
+        } else if (checkedQuestions[idx]) {
+          classes += userSelections[idx] === activeQuestions[idx].correct
+            ? "bg-emerald-500/30 text-emerald-200 border-emerald-400 "
+            : "bg-rose-500/30 text-rose-200 border-rose-400 ";
+        } else if (userSelections[idx] !== null) {
+          classes += "bg-[#0284c7]/40 text-white border-[#38bdf8] ";
+        } else {
+          classes += "bg-slate-800/80 text-[#94a3b8] border-slate-600 hover:border-[#38bdf8] hover:text-white ";
+        }
+        btn.className = classes;
+        questionNav.appendChild(btn);
+      });
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentIndex];
+      const selectedIdx = userSelections[currentIndex];
+      const isChecked = checkedQuestions[currentIndex];
+
+      progressBadge.textContent = `${currentIndex + 1} / ${activeQuestions.length}`;
+      prevBtn.disabled = currentIndex === 0;
+      checkBtn.disabled = isChecked || selectedIdx === null;
+      nextBtn.textContent = currentIndex === activeQuestions.length - 1 ? "Finalizar →" : "Next →";
+
+      renderNav();
+
+      let html = `<h2 class="text-base sm:text-lg font-bold text-[#f8f9fa] leading-snug">${q.question}</h2><div class="space-y-2.5">`;
+      q.options.forEach((opt, idx) => {
+        let btnClasses = "option-btn w-full text-left px-4 py-3 rounded-full border-2 text-sm sm:text-base text-[#f8f9fa] ";
+        if (isChecked) {
+          if (idx === q.correct) {
+            btnClasses += "border-emerald-400 bg-emerald-500/20 font-bold ";
+          } else if (idx === selectedIdx && idx !== q.correct) {
+            btnClasses += "border-rose-400 bg-rose-500/20 ";
+          } else {
+            btnClasses += "border-white/20 bg-slate-800/50 opacity-60 ";
+          }
+        } else {
+          btnClasses += idx === selectedIdx
+            ? "border-[#38bdf8] bg-[#0284c7]/30 font-semibold cursor-pointer "
+            : "border-white/40 bg-slate-800/80 cursor-pointer ";
+        }
+        html += `<button onclick="selectOption(${idx})" ${isChecked ? "disabled" : ""} class="${btnClasses}">${opt}</button>`;
+      });
+      html += `</div>`;
+      questionArea.innerHTML = html;
+
+      if (isChecked) {
+        const isCorrect = selectedIdx === q.correct;
+        if (isCorrect) {
+          feedbackBox.className = "rounded-2xl p-4 border border-emerald-400/60 bg-emerald-950/50 text-sm sm:text-base leading-relaxed text-[#f8f9fa]";
+          feedbackBox.innerHTML = `<strong>Acertou!</strong> ${q.whyCorrect}`;
+        } else {
+          feedbackBox.className = "rounded-2xl p-4 border border-rose-400/60 bg-rose-950/50 text-sm sm:text-base leading-relaxed text-[#f8f9fa] space-y-2";
+          feedbackBox.innerHTML = `
+            <p><strong class="text-rose-300">Por que a sua escolha está errada:</strong> ${q.whyWrong[selectedIdx]}</p>
+            <p><strong class="text-emerald-300">Por que a correta é a letra ${String.fromCharCode(97 + q.correct)}:</strong> ${q.whyCorrect}</p>
+          `;
+        }
+        feedbackBox.classList.remove("hidden");
+      } else {
+        feedbackBox.classList.add("hidden");
+      }
+
+      updateScoreBadge();
+    }
+
+    window.selectOption = function (idx) {
+      if (checkedQuestions[currentIndex]) return;
+      userSelections[currentIndex] = idx;
+      renderQuestion();
+    };
+
+    checkBtn.addEventListener("click", () => {
+      if (userSelections[currentIndex] === null || checkedQuestions[currentIndex]) return;
+      checkedQuestions[currentIndex] = true;
+      renderQuestion();
+    });
+
+    prevBtn.addEventListener("click", () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (currentIndex < activeQuestions.length - 1) {
+        currentIndex++;
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    });
+
+    function showResults() {
+      hideAllScreens();
+      resultScreen.classList.remove("hidden");
+
+      const total = activeQuestions.length;
+      let hits = 0;
+      const blockStats = {};
+
+      activeQuestions.forEach((q, idx) => {
+        if (!blockStats[q.block]) blockStats[q.block] = { total: 0, hits: 0, errors: 0 };
+        blockStats[q.block].total++;
+        if (checkedQuestions[idx] && userSelections[idx] === q.correct) {
+          hits++;
+          blockStats[q.block].hits++;
+        } else {
+          blockStats[q.block].errors++;
+        }
+      });
+
+      const errors = total - hits;
+      const hitPct = Math.round((hits / total) * 100);
+      const errPct = 100 - hitPct;
+      const finalGrade = (hits / total) * 10;
+
+      finalScoreText.textContent = `${finalGrade.toFixed(1)} / 10.0`;
+      statsSummary.innerHTML = `
+        <div class="bg-emerald-950/40 border border-emerald-400/50 rounded-2xl p-3">
+          <p class="text-xs text-emerald-300 font-bold uppercase">Acertos</p>
+          <p class="text-xl font-bold text-white">${hits} (${hitPct}%)</p>
+        </div>
+        <div class="bg-rose-950/40 border border-rose-400/50 rounded-2xl p-3">
+          <p class="text-xs text-rose-300 font-bold uppercase">Erros</p>
+          <p class="text-xl font-bold text-white">${errors} (${errPct}%)</p>
+        </div>
+      `;
+
+      const blocksToReview = [];
+      let reportHtml = `<p class="text-xs font-bold uppercase tracking-wider text-[#38bdf8] mb-1">Desempenho por Bloco:</p>`;
+      Object.keys(blockStats).forEach(bId => {
+        const st = blockStats[bId];
+        const bErrPct = Math.round((st.errors / st.total) * 100);
+        if (bErrPct >= 30) blocksToReview.push(blocksInfo[bId].title);
+        reportHtml += `
+          <div class="flex items-center justify-between bg-slate-900/70 border border-slate-700 rounded-xl px-3 py-2">
+            <span class="font-semibold text-[#f8f9fa]">${blocksInfo[bId].title}</span>
+            <span class="text-xs font-bold ${bErrPct >= 30 ? 'text-amber-300' : 'text-emerald-300'}">
+              ${st.hits}/${st.total} acertos (${bErrPct}% erros)
+            </span>
+          </div>
+        `;
+      });
+      blockReport.innerHTML = reportHtml;
+
+      if (blocksToReview.length > 0) {
+        revisionAlert.innerHTML = `<strong>Atenção — Foco na Revisão:</strong> Você teve uma quantidade relevante de erros em: <strong>${blocksToReview.join(", ")}</strong>. Vale a pena voltar ao menu principal e revisar esses blocos!`;
+        revisionAlert.classList.remove("hidden");
+      } else {
+        revisionAlert.classList.add("hidden");
+      }
+    }
+
+    restartBtn.addEventListener("click", () => startQuiz(currentMode));
+  </script>
+</body>
+</html>
